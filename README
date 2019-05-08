@@ -1,0 +1,7 @@
+Written by: Apolinar Camacho and Alan Mendez
+
+To run program do the following:
+	1. run the command: "gcc virtualMem.c" to obtain the current executable.
+	2. run the command: "./a.out addresses.txt" to run the program.
+
+The Stats are displayed on the console. 
