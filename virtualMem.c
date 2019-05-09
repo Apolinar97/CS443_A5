@@ -16,6 +16,7 @@
 //Page tables
 int pageTableFrames[PAGE_TABLE_SIZE];
 int pageTableNums[PAGE_TABLE_SIZE];
+signed char val; //contains bit value.
 
 //TLB tables
 int TLBFrameNum[TLB_SIZE];
@@ -49,7 +50,7 @@ void printStats(int translatedNum);
 int main(int argc, char* argv[]) {
   //algo outline:
   //Read files, Call getPage.
-  //InsertIntoTLB
+  //getPage inserts into TLB and prints out req. vals.
   //printStats()
 
   //Note that error cases must be checked for reading in files. 
@@ -144,10 +145,32 @@ void getPage(int logical_address) {
       readFromStore(pageNum);
       pageFault++;
       frameNum = firstAvaFrame - 1;
-
     }//fault has occured
+
     
   }//end outter if
+
+  insertIntoTLB(pageNum,frameNum);
+  val = physicalMemory[frameNum][offset];
+  printf("offset: %d\n",offset);
+
+  printf("---------------------------\n");
+
+  printf("Frame number: %d\n",frameNum);
+
+  printf("---------------------------\n");
+  
+  printf("Virtual address: %d , Physical address: %d, Value: %d \n", logicalAddress,
+	 (frameNum << 8) | offset,val); 
+  
+
+
+  
+  
+  
+  
+  
+  insertIntoTLB(pageNum,frameNum);
 }//end function
 //-----------------------------------------------------------------
 
@@ -207,8 +230,14 @@ void printStats(int translatedNum) {
   double pageFaultRate = pageFault/(double)translatedNum;
   double tableHitRate = TLBHits/(double)translatedNum;
 
-  printf("Page-fault-rate = %f\n",pageFaultRate);
-  printf("TLB hit rate = %f\n",tableHitRate);
+
+  printf("Stats:\n");
+  printf("=================================================\n");
+	
+  printf("/tPage-fault-rate = %f\n",pageFaultRate);
+  printf("/tTLB hit rate = %f\n",tableHitRate);
+
+  printf("=================================================\n");
   
 }
 
